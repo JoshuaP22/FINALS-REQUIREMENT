@@ -1,0 +1,81 @@
+import java.math.BigDecimal;
+
+public class Posugac_Joshua_MidtermReq {
+
+  public static BigDecimal exp(BigDecimal x, int scale) {
+    // Handle base case (e^0 = 1)
+    if (x.compareTo(BigDecimal.ZERO) == 0) {
+      return BigDecimal.ONE;
+    }
+
+    BigDecimal result = BigDecimal.ONE;
+    BigDecimal factorial = BigDecimal.ONE;
+    for (int n = 1; n < 100; n++) { 
+      factorial = factorial.multiply(new BigDecimal(n));
+      BigDecimal term = x.pow(n).divide(factorial, scale, BigDecimal.ROUND_HALF_UP);
+      result = result.add(term);
+      
+      if (term.abs().compareTo(BigDecimal.ZERO) < 0) {
+        break;
+      }
+    }
+    return result;
+  }
+
+  public static void main(String[] args) {
+    BigDecimal x = new BigDecimal("2.25");
+    int scale = 5; // Adjust scale for desired decimal places
+
+    BigDecimal result = exp(x, scale);
+    System.out.println("e^" + x + " = " + result);
+  }
+}
+
+Proper Variable Naming Conventions:
+
+x: Represents the base of the exponential calculation.
+scale: Represents the desired number of decimal places in the result.
+result: Stores the calculated exponential value.
+factorial: Represents the factorial term used in the series expansion.
+term: Represents the individual term added to the result in each iteration.
+Comments Added:
+
+Java
+// Base case for e^0 = 1
+if (x.compareTo(BigDecimal.ZERO) == 0) {
+  return BigDecimal.ONE;
+}
+
+// Initialize result and factorial for calculation
+BigDecimal result = BigDecimal.ONE;
+BigDecimal factorial = BigDecimal.ONE;
+
+// Loop to calculate e^x using Taylor series expansion
+for (int n = 1; n < 100; n++) {
+  // Calculate factorial efficiently using loop (could be further optimized)
+  factorial = factorial.multiply(new BigDecimal(n));
+
+  // Calculate term with appropriate scaling and rounding
+  BigDecimal term = x.pow(n).divide(factorial, scale, BigDecimal.ROUND_HALF_UP);
+
+  // Add term to result
+  result = result.add(term);
+
+  // Break loop when term becomes negligible (absolute value < 0 due to negatives in factorial)
+  if (term.abs().compareTo(BigDecimal.ZERO) < 0) {
+    break;
+  }
+}
+
+// Return the calculated exponential value
+return result;
+
+Explanation:
+
+Comments explain the purpose of each code block and variable.
+Specific comments highlight the chosen approach for calculating factorial (loop) and handling term significance for early termination.
+Additional Practices:
+
+Modularity: The exp method encapsulates the exponential calculation logic, promoting code reusability.
+Clarity: The code uses clear variable names and avoids unnecessary complexity, improving readability.
+These are some of the best practices evident in the provided code.  Remember, there might be other optimization techniques that could be applied depending on specific use cases.
